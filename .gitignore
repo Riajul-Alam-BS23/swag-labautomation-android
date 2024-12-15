@@ -46,6 +46,7 @@ package-lock.json
 .env
 chromedriver-mobile/
 .git
+.DS_Store
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
