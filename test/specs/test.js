@@ -9,7 +9,22 @@ describe('Swag Labs Mobile App Automation', async () => {
         await driver.activateApp("com.swaglabsmobileapp");
         await LoginPage.loginAsLockedOutUser();
         await expect(LoginPage.errorMessage).toBeDisplayed();
-        expect(errorText).toBe("Sorry, this user has been locked out.");
+        const errorMessageText = await LoginPage.errorMessage.getText();
+        expect(errorMessageText).toBe("Sorry, this user has been locked out.");
+        
       });
-    });    
+    });
+
+
+    describe("Verify order place successfully", () => {
+        it("should succeessfully login", async () => {
+            await driver.activateApp("com.swaglabsmobileapp");
+            await LoginPage.loginAsValidUser();
+            await expect(LoginPage.homePageElement).toBeDisplayed();
+        });
+
+        
+    });
+    
+
 });

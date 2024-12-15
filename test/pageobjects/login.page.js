@@ -11,8 +11,14 @@ class LoginPage {
     get lockedOutUser() {
       return $('android=new UiSelector().text("locked_out_user")');
     }
+    get validUser(){
+      return $('android=new UiSelector().text("standard_user")');
+    }
     get errorMessage() {
       return $('android=new UiSelector().text("Sorry, this user has been locked out.")');
+    }
+    get homePageElement(){
+        return $('android=new UiSelector().className("android.widget.ImageView").instance(5)'); 
     }
   
     async scrollToUserList() {
@@ -34,6 +40,13 @@ class LoginPage {
       await this.lockedOutUser.click();
       await this.scrollToUsernameField();
       await this.loginButton.click();
+    }
+    async loginAsValidUser()
+    {
+        await this.scrollToUserList();
+        await this.validUser.click();
+        await this.scrollToUsernameField();
+        await this.loginButton.click();
     }
   
     async getErrorMessageText() {
