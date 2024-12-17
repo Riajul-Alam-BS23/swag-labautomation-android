@@ -1,41 +1,58 @@
-import { $ } from '@wdio/globals'
-import Page from './page.js';
-
-/**
- * sub page containing specific selectors and methods for a specific page
- */
-class LoginPage extends Page {
-    /**
-     * define selectors using getter methods
-     */
-    get inputUsername () {
-        return $('#username');
+class LoginPage {
+    get usernameField() {
+      return $("~test-Username");
     }
-
-    get inputPassword () {
-        return $('#password');
+    get passwordField() {
+      return $("~test-Password");
     }
-
-    get btnSubmit () {
-        return $('button[type="submit"]');
+    get loginButton() {
+      return $("~test-LOGIN");
     }
-
-    /**
-     * a method to encapsule automation code to interact with the page
-     * e.g. to login using username and password
-     */
-    async login (username, password) {
-        await this.inputUsername.setValue(username);
-        await this.inputPassword.setValue(password);
-        await this.btnSubmit.click();
+    get lockedOutUser() {
+      return $('android=new UiSelector().text("locked_out_user")');
     }
-
-    /**
-     * overwrite specific options to adapt it to page object
-     */
-    open () {
-        return super.open('login');
+    get validUser(){
+      return $('android=new UiSelector().text("standard_user")');
     }
-}
-
-export default new LoginPage();
+    get errorMessage() {
+      return $('android=new UiSelector().text("Sorry, this user has been locked out.")');
+    }
+    get homePageElement(){
+        return $('android=new UiSelector().className("android.widget.ImageView").instance(5)'); 
+    }
+  
+    async scrollToUserList() {
+      await driver.execute("mobile: scroll", {
+        strategy: "accessibility id",
+        selector: "test-standard_user",
+      });
+    }
+  
+    async scrollToUsernameField() {
+        await driver.execute("mobile: scroll", {
+          strategy: "accessibility id",
+          selector: "test-Username",
+        });
+      }
+    
+    async loginAsLockedOutUser() {
+      await this.scrollToUserList();
+      await this.lockedOutUser.click();
+      await this.scrollToUsernameField();
+      await this.loginButton.click();
+    }
+    async loginAsValidUser()
+    {
+        await this.scrollToUserList();
+        await this.validUser.click();
+        await this.scrollToUsernameField();
+        await this.loginButton.click();
+    }
+  
+    async getErrorMessageText() {
+      return await this.errorMessage.getText();
+    }
+  }
+  
+  export default new LoginPage();
+  
