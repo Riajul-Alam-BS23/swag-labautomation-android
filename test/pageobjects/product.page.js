@@ -38,10 +38,10 @@ class ProductPage {
         await driver.execute("mobile: scroll", {
             direction: "up",
             strategy: "-android uiautomator",
-            selector: `new UiSelector().text("Sauce Labs Onesie")`,
+            selector: `new UiSelector().text("Sauce Labs Bike Light")`,
         });
         const productTwoName = await $(
-            'android=new UiSelector().text("Sauce Labs Onesie")'
+            'android=new UiSelector().text("Sauce Labs Bike Light")'
         );
         await productTwoName.click();
 
